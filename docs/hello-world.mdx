@@ -1,0 +1,348 @@
+---
+title: 'Example Blog Post'
+publishedAt: '2024-12-10'
+summary: 'This is an example blog post.'
+---
+
+class based components:
+  - cbc are the components that are created using classes
+  - cbc is one of the traditional way of creating component in React
+
+Difference between cbc and fn based component
+
+| class based                                                                                                          | fn based                                                                                                                                                                |
+| -------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| will use classed for creating the component to create components                                                     | will use fns to create components                                                                                                                                       |
+| cbc extends Component                                                                                                | does not extends Component                                                                                                                                              |
+| cbc has constructor and in that we have to write super()                                                             | fbc doesn't have constructor and super()                                                                                                                                |
+| we must use render(), inside that we'll have return stmt                                                             | fbc doen't need the render(), it'll return the jsx to parent element or the caller                                                                                      |
+| cbc is a stateful component means that it has inbuilt state and to manage this state we have inbuilt setState().     | fbc are stateless components means that it does not have it's state and setState(). If we want to have state in fbc, we have to use some extra hooks, eg: useState hook |
+| we can't use hooks inside cbc                                                                                        | we can use hooks in fbc                                                                                                                                                 |
+| we have inbuilt lifecycle methods in cbc, eg: constructor(), render(), getDerivedStateFromProps, componentDidMount() | fbc does not have any inbuilt methods for managing lifecycle so, to achieve lifecycle methods in fbc, we have to use hook useEffect hook                                |
+
+
+
+1. BASIC STRUCTURE:
+   Class-Based:
+   ```jsx
+   class MyComponent extends React.Component {
+       render() {
+           return <div>Class Component</div>;
+       }
+   }
+   ```
+
+   Functional:
+   ```jsx
+   function MyComponent() {
+       return <div>Functional Component</div>;
+   }
+   ```
+
+2. STATE MANAGEMENT:
+   Class-Based:
+   ```jsx
+   class Counter extends React.Component {
+       constructor(props) {
+           super(props);
+           this.state = { count: 0 };
+       }
+
+       incrementCount = () => {
+           this.setState({ count: this.state.count + 1 });
+       }
+   }
+   ```
+
+   Functional:
+   ```jsx
+   function Counter() {
+       const [count, setCount] = useState(0);
+
+       const incrementCount = () => {
+           setCount(count + 1);
+       }
+   }
+   ```
+
+3. LIFECYCLE METHODS COMPARISON:
+   Class-Based:
+   ```jsx
+   componentDidMount() { /* on mount */ }
+   componentDidUpdate() { /* on update */ }
+   componentWillUnmount() { /* on unmount */ }
+   ```
+
+   Functional (using useEffect):
+   ```jsx
+   useEffect(() => {
+       // componentDidMount
+       return () => {
+           // componentWillUnmount
+       }
+   }, []); // Dependencies array
+   ```
+
+ Props Access
+- Class: `this.props`
+- Functional: props as parameter
+
+Context Access
+- Class: static contextType or Consumer
+- Functional: useContext hook
+
+Error Handling
+- Class: componentDidCatch lifecycle method
+- Functional: Error Boundaries (must use class component)
+
+5. Advantages/Disadvantages
+Class-Based Components
+
+Advantages
+- Better for complex state logic
+- Built-in lifecycle methods
+- Can use Error Boundaries
+
+Disadvantages
+- More verbose code
+- More complex to understand
+- 'this' binding issues
+
+
+Functional Components
+Advantages
+- Simpler syntax
+- Less code
+- Easier to test and debug
+- Better performance for simple components
+- Hooks make state management cleaner
+
+Disadvantages
+- Need external libraries for some complex features
+- Must understand hooks well
+
+6. Modern Best Practices
+- Prefer functional components for new code
+- Use class components when needed for error boundaries
+- Understanding both is important for maintaining legacy code
+
+Additional Notes for MDN
+
+1. Memory Usage
+- Functional components generally use less memory
+- Class components create instances which can be heavier
+
+ 2. Testing
+- Functional components are easier to test due to pure function nature
+- Class components require more setup for testing
+
+3. Code Reusability
+- Functional components promote better code reuse through hooks
+- Custom hooks can be shared across components
+
+4. Performance Optimization
+Class-Based
+- shouldComponentUpdate()
+- PureComponent
+Functional
+- React.memo()
+- useMemo
+- useCallback
+
+5. Modern React Development
+- Hooks were introduced in React 16.8
+- Most new React features focus on functional components
+- Many libraries are moving towards hooks-based APIs
+
+
+1. Basic Class Component Structure:
+```jsx
+import React, { Component } from 'react';
+
+class MyComponent extends Component {
+  render() {
+    return (
+      <div>
+        <h1>Hello from Class Component!</h1>
+      </div>
+    );
+  }
+}
+
+export default MyComponent;
+```
+
+2. Class Component with State:
+```jsx
+class Counter extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      count: 0
+    };
+  }
+
+  render() {
+    return (
+      <div>
+        <h1>Count: {this.state.count}</h1>
+        <button onClick={() => this.setState({ count: this.state.count + 1 })}>
+          Increment
+        </button>
+      </div>
+    );
+  }
+}
+```
+
+3. Lifecycle Methods:
+```jsx
+class LifecycleComponent extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      data: []
+    };
+  }
+
+  componentDidMount() {
+    // Called after component is mounted to the DOM
+    // Good place for API calls
+    fetch('https://api.example.com/data')
+      .then(response => response.json())
+      .then(data => this.setState({ data }));
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    // Called after component updates
+    if (prevProps.id !== this.props.id) {
+      // Do something when props change
+    }
+  }
+
+  componentWillUnmount() {
+    // Called before component is removed from DOM
+    // Good place for cleanup
+  }
+
+  render() {
+    return <div>Lifecycle Component</div>;
+  }
+}
+```
+
+4. Handling Events:
+```jsx
+class ButtonComponent extends Component {
+  handleClick = () => {
+    // Using arrow function to bind 'this'
+    console.log('Button clicked');
+  }
+
+  render() {
+    return (
+      <button onClick={this.handleClick}>
+        Click Me
+      </button>
+    );
+  }
+}
+```
+
+5. Props Usage:
+```jsx
+class Welcome extends Component {
+  render() {
+    return <h1>Hello, {this.props.name}</h1>;
+  }
+}
+
+// Usage:
+// <Welcome name="John" />
+```
+
+6. Class Component with Methods:
+```jsx
+class TodoList extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      todos: [],
+      inputValue: ''
+    };
+  }
+
+  handleInputChange = (e) => {
+    this.setState({ inputValue: e.target.value });
+  }
+
+  addTodo = () => {
+    this.setState(prevState => ({
+      todos: [...prevState.todos, prevState.inputValue],
+      inputValue: ''
+    }));
+  }
+
+  render() {
+    return (
+      <div>
+        <input
+          value={this.state.inputValue}
+          onChange={this.handleInputChange}
+        />
+        <button onClick={this.addTodo}>Add Todo</button>
+        <ul>
+          {this.state.todos.map((todo, index) => (
+            <li key={index}>{todo}</li>
+          ))}
+        </ul>
+      </div>
+    );
+  }
+}
+```
+
+7. Using PropTypes for Type Checking:
+```jsx
+import PropTypes from 'prop-types';
+
+class User extends Component {
+  render() {
+    return (
+      <div>
+        <h1>{this.props.name}</h1>
+        <p>Age: {this.props.age}</p>
+      </div>
+    );
+  }
+}
+
+User.propTypes = {
+  name: PropTypes.string.isRequired,
+  age: PropTypes.number
+};
+```
+
+8. Default Props:
+```jsx
+class Greeting extends Component {
+  render() {
+    return <h1>Hello, {this.props.name}</h1>;
+  }
+}
+
+Greeting.defaultProps = {
+  name: 'Guest'
+};
+```
+
+Key Points to Remember:
+- Always extend from React.Component
+- The render() method is required
+- Use this.state for internal component state
+- Use this.props to access props
+- Use setState() to update state, never modify state directly
+- Lifecycle methods provide hooks for different stages of component life
+- Use arrow functions or bind methods in constructor to maintain correct 'this' context
+
+Modern React tends to favor functional components with hooks, but class components are still used in some cases and are important to understand when maintaining older React applications.

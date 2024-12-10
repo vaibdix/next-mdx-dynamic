@@ -1,0 +1,13 @@
+v2
+
+
+| class based                                                                                                          | fn based                                                                                                                                                                |
+| -------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| will use classed for creating the component to create components                                                     | will use fns to create components                                                                                                                                       |
+| cbc extends Component                                                                                                | does not extends Component                                                                                                                                              |
+| cbc has constructor and in that we have to write super()                                                             | fbc doesn't have constructor and super()                                                                                                                                |
+| we must use render(), inside that we'll have return stmt                                                             | fbc doen't need the render(), it'll return the jsx to parent element or the caller                                                                                      |
+| cbc is a stateful component means that it has inbuilt state and to manage this state we have inbuilt setState().     | fbc are stateless components means that it does not have it's state and setState(). If we want to have state in fbc, we have to use some extra hooks, eg: useState hook |
+| we can't use hooks inside cbc                                                                                        | we can use hooks in fbc                                                                                                                                                 |
+| we have inbuilt lifecycle methods in cbc, eg: constructor(), render(), getDerivedStateFromProps, componentDidMount() | fbc does not have any inbuilt methods for managing lifecycle so, to achieve lifecycle methods in fbc, we have to use hook useEffect hook                                |
+
